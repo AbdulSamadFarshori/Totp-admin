@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/61127ffbad.js" crossorigin="anonymous"></script>
+
+
+    <title>Home Page</title>
+  {% block jquery %}
+  <script type="text/javascript">
+    function SubmitUpdateData(e){
+        var access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2NjA2NzAwOSwianRpIjoiMTgzZWE0ZGQtOWYxNi00MjQ0LTk3NmUtODA1ZDg5MTk5MzNiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InN1bWlyNDBAZ21haWwuY29tIiwibmJmIjoxNjY2MDY3MDA5LCJleHAiOjE2Njg2NTkwMDl9.Cp0UoxqsVPVmprTkvmo0Slp8rFm11ItVlIzj04vUbFU'
+        var id = e;
+        var client_id = $('#clientId').val();
+        var totp_key = $('#key').val();
+        var data = {
+                  "client_id":client_id, 
+                  "totp_key":totp_key
+                }
+        console.log(data);  
+          $.ajax({
+            url: "/client/update-data/"+ id,
+            type: "PUT",
+            headers: {
+              Authorization:'Bearer '+ access_token
+            },
+            dataType:"json",
+            data:data,
+            ContentType: "application/json",
+            success: function(response){
+              console.log(response);
+              window.location.href = '/home'
+
+              
+              }
+          });
+    }
+  </script>
+  {% endblock %}
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">TOTP ADMIN</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="{{url_for('totp_route.index')}}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('totp_route.add_totp')}}">Add New Client</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('totp_route.logout')}}">Logout <span><i class="fa fa-sign-out" aria-hidden="true"></i></span>
+                  </a>
+              </li>
+          </ul>
+          </div>
+        </div>
+      </nav>
+    <!-- Optional JavaScript; choose one of the two! -->
+
+<br>
+<br>
+<div class="content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="card" style="width: 40rem;">
+        <div class="card-body">
+          <div class="col-md-12 contents">
+            <div class="row justify-content-center">
+              <div class="col-md-12">
+                <div class="form-block">
+                  <div class="mb-4">
+                    <h3>Update Details</h3>
+                    <p class="mb-4"></p>
+                  </div>
+                    <div class="form-group first">
+
+                      <label for="clientId">Client_id</label>
+                      <input id="clientId" type="text" class="form-control" value="{{data.client_id}}">
+                    </div>
+                    <div class="form-group last mb-4">
+                      <label for="key">Totp Key</label>
+                      <input id="key" type="text" class="form-control" value="{{data.totp_key}}">
+                    </div>
+                    
+                    <button type="button" class="btn btn-pill text-white btn-block btn-primary" onclick="SubmitUpdateData('{{data.client_id}}')">Update</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
